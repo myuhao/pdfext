@@ -14,3 +14,12 @@ heights = withr::with_seed(
   sample(1:10, length(figures), replace = TRUE)
 )
 
+get_pdf_length = function(.f, x, width, height, ...) {
+  withr::with_tempfile(
+    "tf",
+    code = {
+      .f(x, tf, width, height, ...)
+      qpdf::pdf_length(tf)
+    }
+  )
+}

@@ -29,4 +29,8 @@ Export a list of figures to a single PDF
 \details{
 This function can be used to save multiple objects (usually plots) into
 a single PDF file, with different dimensions.
+
+A scalar can be used for the width and height argument.
+In this case, this width/height will be applied to all pages
+of the final PDF file.
 }
