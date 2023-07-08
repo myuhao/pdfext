@@ -1,6 +1,6 @@
 #' Export a list of figures to a single PDF
 #'
-#' @importFrom withr with_pdf local_tempfile
+#' @importFrom withr with_pdf with_cairo_pdf local_tempfile
 #' @importFrom qpdf pdf_combine
 #' @importFrom purrr pmap_chr
 #' @importFrom cli cli_abort
@@ -9,7 +9,7 @@
 #' @param file The output file name.
 #' @param width The width of each page in the final the PDF.
 #' @param height The height of each page in the final the PDF.
-#' @param ... Additional argument passed to the `pdf()` device.
+#' @param ... Additional argument passed to the [pdf()] or [cairo_pdf()] device.
 #'
 #' @return Silently return the list of input object.
 #'
@@ -17,9 +17,21 @@
 #' This function can be used to save multiple objects (usually plots) into
 #' a single PDF file, with different dimensions.
 #'
+#' @name export_pdf
+#'
 #' @export
 export_pdf = function(x, file, width, height, ...) {
+  export_with_device(with_pdf, x, file, width, height, ...)
+}
 
+#' @name export_pdf
+#' @export
+export_cairo_pdf = function(x, file, width, height, ...) {
+  export_with_device(with_cairo_pdf, x, file, width, height, ...)
+}
+
+
+export_with_device = function(with_dev, x, file, width, height, ...) {
   if (length(width) != length(x) || length(height) != length(x)) {
     cli_abort(
       c(
@@ -42,7 +54,7 @@ export_pdf = function(x, file, width, height, ...) {
         # I think should be 2: anonymous function -> export_pdf
       )
       # save the figure to the pdf file
-      with_pdf(
+      with_dev(
         fpath,
         print(.g),
         width = .w, height = .h,
@@ -53,6 +65,5 @@ export_pdf = function(x, file, width, height, ...) {
   )
 
   pdf_combine(temp_files, output = file) # Call this function to combine the file
-
   invisible(x)
 }

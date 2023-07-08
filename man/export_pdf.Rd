@@ -2,9 +2,12 @@
 % Please edit documentation in R/export_pdf.R
 \name{export_pdf}
 \alias{export_pdf}
+\alias{export_cairo_pdf}
 \title{Export a list of figures to a single PDF}
 \usage{
 export_pdf(x, file, width, height, ...)
+
+export_cairo_pdf(x, file, width, height, ...)
 }
 \arguments{
 \item{x}{A list of object that can be understand by the pdf device.}
@@ -15,7 +18,7 @@ export_pdf(x, file, width, height, ...)
 
 \item{height}{The height of each page in the final the PDF.}
 
-\item{...}{Additional argument passed to the \code{pdf()} device.}
+\item{...}{Additional argument passed to the \code{\link[=pdf]{pdf()}} or \code{\link[=cairo_pdf]{cairo_pdf()}} device.}
 }
 \value{
 Silently return the list of input object.

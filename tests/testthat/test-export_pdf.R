@@ -8,7 +8,10 @@ test_that("Check function runs", {
   expect_no_error(
     withr::with_tempfile(
       "tf",
-      export_pdf(figures, file = tf, width = widths, height = heights)
+      code = {
+        export_pdf(figures, file = tf, width = widths, height = heights)
+        export_cairo_pdf(figures, file = tf, width = widths, height = heights)
+      }
     )
   )
 })
