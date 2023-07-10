@@ -16,7 +16,9 @@ auto_export_ggplot(
 
 \item{file}{The single file used to save all pdf}
 
-\item{env}{The environment to register this method. Usually is the caller env.}
+\item{include_unnamed_chunk}{Should code chunk be exported as well?}
+
+\item{env}{The environment to register the method. Usually is the caller env.}
 }
 \description{
 Automatic save ggplot as PDF

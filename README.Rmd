@@ -18,5 +18,10 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-Provide some functions that make it easier to save plots as PDF.
+Provide some functions that make it easier to save plots (mostly ggplot2 objects) as PDF.
 
+
+## @TODOs
+
+1. Currently the `knitr` package needs to be loaded so the S3 method can be
+registered... Doing an `.onLoad()` method?

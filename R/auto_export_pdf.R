@@ -2,10 +2,11 @@
 #'
 #' @param dir The directory to save the file
 #' @param file The single file used to save all pdf
-#' @param env The environment to register this method. Usually is the caller env.
+#' @param include_unnamed_chunk Should code chunk be exported as well?
+#' @param env The environment to register the method. Usually is the caller env.
 #'
 #' @importFrom knitr opts_current knit_print
-#' @importFrom cli cli_abort cli_warn cli_inform
+#' @importFrom cli cli_abort cli_inform
 #' @importFrom qpdf pdf_combine
 #' @importFrom withr local_tempdir defer
 #'
@@ -49,9 +50,8 @@ auto_export_ggplot = function(dir, file, include_unnamed_chunk = FALSE, env = pa
     auto_export_to_dir(dir, include_unnamed_chunk, env)
   }
 
-  # @todo
   if (missing(dir)) {
-    cli_warn("Save to file")
+    cli_inform("Save ggplots as a single PDFs in {file}")
     auto_export_to_file(file, include_unnamed_chunk, env)
   }
 }
@@ -92,8 +92,8 @@ auto_export_to_dir = function(dir, include_unnamed_chunk, env) {
 auto_export_to_file = function(file, include_unnamed_chunk, env) {
   dir = local_tempdir(pattern = "pdfext", .local_envir = parent.frame(n = 2)) # This should be at global level?
   auto_export_to_dir(dir, include_unnamed_chunk, env = env) # Hope the S3 methods is registered.
-  cli_warn("temp dir to hold all pdf is ", dir)
-  # Add this onto the deder stack.
+
+  # Add this onto the defer stack.
   defer(
     expr = {
       pdfs = list.files(dir, pattern = "*.pdf", full.names = TRUE)
