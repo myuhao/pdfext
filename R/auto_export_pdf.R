@@ -97,6 +97,10 @@ auto_export_to_file = function(file, include_unnamed_chunk, env) {
   defer(
     expr = {
       pdfs = list.files(dir, pattern = "*.pdf", full.names = TRUE)
+      # https://stackoverflow.com/questions/13762224/how-to-sort-files-list-by-date
+      pdfs = file.info(pdfs)
+      pdfs = pdfs[order(as.POSIXct(pdfs$ctime)), ]
+      pdfs = rownames(pdfs)
       pdf_combine(pdfs, output = file)
     },
     envir = parent.frame(n = 2),
